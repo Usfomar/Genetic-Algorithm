@@ -107,9 +107,9 @@ def Do_GA(Pop_Size, Num_Generations, Chromosome_Length, Prop_Crossover, Prop_Mut
     return Intial_Population , Population , Best_Hist_Fitness
 
 
-Pop_Size = 6
+Pop_Size = 20
 Chromosome_Length = 5
-generations = 10
+generations = 100
 Prob_Crossover = 0.6
 Prob_Muation = 0.05
 
