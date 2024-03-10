@@ -45,7 +45,8 @@ def crossover(parent1, parent2, PCross):
         return parent1, parent2
 
 
-# Mutation Function takes a 2d array that contains the solutions and perform mutation on them with parameter = 0.01
+# Mutation Function takes a 2d array that contains the solutions
+# and perform mutation on them with parameter = 0.01
 def Mutation(array, PMuation):
     for i in range(len(array)):
         if random.random() < PMuation:  # Then there is a mutation
@@ -57,50 +58,58 @@ def Mutation(array, PMuation):
     # No need for returning it its values will be changed
 
 
-# Initialize an arbitrary solution at the first
-
 
 def Do_GA(Pop_Size, Num_Generations, Chromosome_Length, Prop_Crossover, Prop_Mutation):
-    Intial_Population = np.random.randint(0, 2, size=(Pop_Size, Chromosome_Length))  # Create 2D array with random values zeros or ones with dimensions of 20*5
+    #Create 2D array with random values zeros or ones with dimensions of 20*5
+    Intial_Population = np.random.randint(0, 2, size=(Pop_Size, Chromosome_Length))
     Population = Intial_Population
-    new_generation = np.zeros((Pop_Size, Chromosome_Length), dtype=int)# New Generation initializes with zero values
+    
+    new_generation = np.zeros((Pop_Size, Chromosome_Length), dtype=int)
 
     Best_Hist_Fitness = []#Best fitness in each generation
     
     for i in range(Num_Generations):
-        fitness , probabilities = Generate_Probabilities(Population)# Generates a probability of each solution based on its fitness
-        sorted_prob_indices = np.argsort(probabilities)# Sort the indices of the probability list acsending
-        sorted_population = Population[sorted_prob_indices][::-1]# Rearrange the population in a new list by the indices above
+        #Generates a probability of each solution based on its fitness
+        fitness , probabilities = Generate_Probabilities(Population)
+        
+        #Sort the indices of the probability list acsending
+        sorted_prob_indices = np.argsort(probabilities)
+        
+        #Rearrange the population in a new list by the indices above
+        sorted_population = Population[sorted_prob_indices][::-1]
 
         Best_Hist_Fitness.append(fitness.max())
         
         # Add best two solutions in the new generation
         new_generation[0] = sorted_population[0]
         new_generation[1] = sorted_population[1]
+        
         # And start adding children from index 2 and jumps step = 2
         j = 2
         while j < Pop_Size - 1:
-            parent1_index, parent2_index = Selection(probabilities)# Returns the index of two parents which are married
-
+            # Returns the index of two parents which are married
+            parent1_index, parent2_index = Selection(probabilities)
             # Get the two parents from the population by their index
             parent1 = Population[parent1_index, :]
             parent2 = Population[parent2_index, :]
-
-            child1, child2 = crossover(parent1.tolist(), parent2.tolist(), Prop_Crossover)# Get the new children by crossover function which takes two lists and returns two lists
+            #Get the new children by crossover function which takes two lists and returns two lists
+            child1, child2 = crossover(parent1.tolist(), parent2.tolist(), Prop_Crossover)
             # Add child in this index and one in the next index
             new_generation[j] = child1
             new_generation[j + 1] = child2
-            j += 2  # jumps steps
+            
+            j += 2  # jumps two steps
 
         Mutation(new_generation, Prob_Muation)
         Population = new_generation
+    
+    #The result of the algorithm as a list
+    return Intial_Population , Population , Best_Hist_Fitness
 
-    return Intial_Population , Population , Best_Hist_Fitness  # The result of the algorithm as a list
 
-
-Pop_Size = 20
+Pop_Size = 6
 Chromosome_Length = 5
-generations = 100
+generations = 10
 Prob_Crossover = 0.6
 Prob_Muation = 0.05
 
