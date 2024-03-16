@@ -59,7 +59,7 @@ def Mutation(array, PMuation):
 
 
 
-def Do_GA(Pop_Size, Num_Generations, Chromosome_Length, Prop_Crossover, Prop_Mutation):
+def Do_GA(Pop_Size, Num_Generations, Chromosome_Length, Prop_Crossover, Prob_Mutation):
     #Create 2D array with random values zeros or ones with dimensions of 20*5
     Intial_Population = np.random.randint(0, 2, size=(Pop_Size, Chromosome_Length))
     Population = Intial_Population
